@@ -9,7 +9,7 @@
 
 body {
     font-size: 16px;
-    background-color: #F8F9F9 !important;
+    background-color: #a0a0a0 !important;
 }
 
 .zone-main{
@@ -66,6 +66,29 @@ nav{
     transform: translate(-50%,-50%);
 }
 
+#recherche_avancer{
+    border-radius: 0.5rem;
+    background: rgba(112, 112, 112, 0.9);
+}
+
+
+#recherche_avancer input, #recherche_avancer select{
+    background-color: rgba(255, 255, 255, 0.555);
+    border-radius: 6px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+  }
+
 #recherche{
     border-radius: 0.5rem;
     position: absolute;
@@ -77,7 +100,6 @@ nav{
 
 #recherche input, #recherche select{
     background-color: transparent;
-    border: none;
 }
 
 
@@ -85,6 +107,10 @@ nav{
     filter: blur(20px);
     pointer-events: none;
     user-select: none;
+}
+
+.card-car{
+    background-color: #d6d6d6 !important;
 }
 
 .show_popup{
@@ -98,6 +124,11 @@ nav{
     background: transparent;
     color: white;
 }
+
+/* #depart_location, #fin_location{
+    border: 1px solid black;
+    border-radius: 8px;
+} */
 
 /* CSS FOOTER */
 
@@ -184,11 +215,6 @@ footer{
 /* CSS PAGE CONTACT */
 
 .google-map {
-    width: 100%;
-}
-
-/* CSS PAGE PANIER */
-.img-panier {
     width: 100%;
 }
 
