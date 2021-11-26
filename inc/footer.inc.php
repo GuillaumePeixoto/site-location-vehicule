@@ -19,7 +19,7 @@
             <?php // si l'indice 'validation_inscription' est définit dans la session de l'utilisateur, alors on entre dans le IF et on affiche un message de validation
             if(isset($error))
             {
-                ?><p class="bg-danger col-md-3 mx-auto p-3 text-center text-white rounded mt-3"> <?= $error; ?> </p>  <?php
+                ?><p class="bg-danger col-md-6 mx-auto p-3 text-center text-white rounded mt-3"> <?= $error; ?> </p>  <?php
             }
         ?>
         <form action="" method="post" class="col-12 col-md-9 mx-auto">
@@ -29,7 +29,7 @@
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Mot de passe</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Saisir votre mot de passe">
+                <input type="password" class="form-control" id="connexion_password" name="connexion_password" placeholder="Saisir votre mot de passe">
             </div>
             <input type="hidden" name="connexion" value="connexion">
             <div>
@@ -56,22 +56,24 @@
                         <label for="sexe" class="form-label">Civilité</label>
                         <div class="d-flex flex-row">
                             <div class="p-2">
-                                <input type="radio" id="homme" name="civilite" value="homme" <?php if(isset($_POST['civilite']) && $_POST['civilite'] == 'homme'){ echo "checked"; }?>>
+                                <input type="radio" id="homme" name="civilite" value="m" checked <?php if(isset($_POST['civilite']) && $_POST['civilite'] == 'm'){ echo "checked"; }?>>
                                 <label for="homme">Homme</label>
                             </div>
                             <div class="p-2">
-                                <input type="radio" id="femme" name="civilite" value="femme" <?php if(isset($_POST['civilite']) && $_POST['civilite'] == 'femme'){ echo "checked"; }?>>
+                                <input type="radio" id="femme" name="civilite" value="f" <?php if(isset($_POST['civilite']) && $_POST['civilite'] == 'f'){ echo "checked"; }?>>
                                 <label for="femme">Femme</label>
                             </div>
                         </div>
                     </div>
                     <div class="my-3 col-md-6">
                         <label for="prenom" class="form-label">Prénom</label>
-                        <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Saisir votre prénom" value="<?php if(isset($_POST['prenom'])){ echo $_POST['prenom'];}?>">
+                        <input type="text" class="form-control <?php if($pseudo_already_exist != ""){ echo 'border-danger';} ?>" id="prenom" name="prenom" placeholder="Saisir votre prénom" value="<?php if(isset($_POST['prenom'])){ echo $_POST['prenom'];}?>">
+                        <?= $prenom_invalid ?>
                     </div>
                     <div class="my-3 col-md-6">
                         <label for="nom" class="form-label">Nom</label>
-                        <input type="text" class="form-control" id="nom" name="nom" placeholder="Saisir votre nom" value="<?php if(isset($_POST['nom'])){ echo $_POST['nom'];}?>">
+                        <input type="text" class="form-control <?php if($pseudo_already_exist != ""){ echo 'border-danger';} ?>" id="nom" name="nom" placeholder="Saisir votre nom" value="<?php if(isset($_POST['nom'])){ echo $_POST['nom'];}?>">
+                        <?= $nom_invalid ?>
                     </div>
 
                     <div class="my-3 col-md-6">
@@ -122,7 +124,7 @@
                     </ul>
                 </div>
                 <div class="col-sm-6 col-md-6">
-                    <h4 class="text-center">Mes réseaux</h4>
+                    <h4 class="text-center">Nos réseaux</h4>
                     <p class="d-flex justify-content-center mb-0">
                         <a href=""><i class="bi bi-facebook icone-b"></i></a>
                         <a href=""><i class="bi bi-instagram icone-b"></i></a>
@@ -134,22 +136,53 @@
                 <p class="text-center zone-copyright py-3 mb-0">&copy; 2021 | Peixoto Guillaume</p>
             </div>
         </footer>
-    <?php
-        if(!empty($all_input_err) || !empty($irequal_mdp) || !empty($pcd_accepted) || !empty($email_already_exist) || !empty($pseudo_already_exist) || !empty($all_input_err))
-        {
-            ?>
-            <script>
-                // document.getElementById('popup_inscription').classList.add('show');
-                $(document).ready(function(){
-                    $('#popup_inscription').modal('show');
-                });
-            </script>
-            
-            <?php
-        }
-    ?>
+
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script src="<?=URL?>js/lightbox.js"></script>
+
+        
+        <script>
+            <?php 
+                if(!empty($all_input_err))
+                {
+                    ?>
+                    $(window).on('load',function(){
+                        $("#popup_inscription").modal('show');
+                    });
+                    <?php
+                }
+                elseif(isset($error))
+                {
+                    ?>
+                    $(window).on('load',function(){
+                        $("#popup_connexion").modal('show');
+                    });
+                    <?php
+                }
+            ?>
+            $(document).ready(function(){
+                $('#depart_location').on('change', function() {
+                    $('#fin_location').attr("min",this.value);
+                    if($('#depart_location').val() > $('#fin_location').val())
+                    {
+                        $('#fin_location').val($('#depart_location').val());
+                    }
+                });
+                $('#marque').on('change', function() {
+                    $("#modele option").removeClass('d-none');
+                    $('#modele option').not('.'+$('#marque').val()).addClass('d-none');
+                    $('#modele option').first().removeClass('d-none');
+                    $('#modele').val("");
+                }); 
+                $('#modele').on('change', function() {
+                    if($('#modele').val() != "")
+                    {
+                        $("#marque").val($('#modele option:selected').attr('class'));
+                    }
+                });   
+            });
+        </script>
     </body>
 </html>

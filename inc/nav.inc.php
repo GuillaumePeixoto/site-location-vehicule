@@ -34,16 +34,16 @@
                 <?php endif; ?>
                 
                 <li class="nav-item">
-                    <a class="nav-link active hover_effect" aria-current="page" href="<?= URL ?>vehicule.php">Liste des véhicule</a>
+                    <a class="nav-link active hover_effect" aria-current="page" href="<?= URL ?>vehicule.php">Liste des véhicules</a>
                 </li>
                 <?php if(adminConnect()): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle active" href="#" id="dropdown07" data-bs-toggle="dropdown" aria-expanded="false">BACKOFFICE</a>
                         <ul class="dropdown-menu" aria-labelledby="dropdown07">
-                            <li><a class="dropdown-item" href="<?= URL ?>admin/gestion_vehicule.php">Gestion Vehicule</a></li>
-                            <li><a class="dropdown-item" href="<?= URL ?>admin/gestion_user.php">Gestion user</a></li>
-                            <li><a class="dropdown-item" href="<?= URL ?>admin/gestion_location.php">Gestion reservation</a></li>
-                            <li><a class="dropdown-item" href="<?= URL ?>admin/gestion_agence.php">Gestion agence</a></li>
+                            <li><a class="dropdown-item hover_effect" href="<?= URL ?>admin/gestion_vehicule.php">Gestion Vehicule</a></li>
+                            <li><a class="dropdown-item hover_effect" href="<?= URL ?>admin/gestion_user.php">Gestion user</a></li>
+                            <li><a class="dropdown-item hover_effect" href="<?= URL ?>admin/gestion_location.php">Gestion reservation</a></li>
+                            <li><a class="dropdown-item hover_effect" href="<?= URL ?>admin/gestion_agence.php">Gestion agence</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
