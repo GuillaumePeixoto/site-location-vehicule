@@ -9,7 +9,11 @@
 
 body {
     font-size: 16px;
-    background-color: #a0a0a0 !important;
+    background-color: #ececec !important;
+}
+
+.abel-font, h1{
+    font-family: 'Abel', sans-serif !important;
 }
 
 .zone-main{
@@ -25,11 +29,15 @@ nav ul li{
     margin:5px 10px ;
 }
 
-
+.border_separator{
+    border-right: 1px solid #dee2e6;
+}
 
 .hover_effect{
     padding: 10px;
     position:relative;
+    border: none !important;
+    outline: none;
 }
 
 .hover_effect:after{
@@ -39,8 +47,12 @@ nav ul li{
     content: '';
     width: 0%;
     height: 2px;
-    background-color: white;
+    background-color: #c49a52;
     transition: 0.3s;
+}
+
+.hover_effect:hover{
+    color: #c49a52 !important;
 }
 
 .hover_effect:hover:after{
@@ -50,8 +62,22 @@ nav ul li{
 nav{
     padding-top: 0;
     padding-bottom: 0;
-    background-color: rgba(34,31,31,255) !important;
-    background: rgba(34,31,31,255) !important;
+    background-color: rgba(34,31,31,1) !important;
+    background: rgba(34,31,31,1) !important;
+}
+
+.dropdown-menu.show{
+    background-color: rgba(34,31,31,1) !important;
+    border: 0px;
+}
+
+.dropdown-menu.show li a{
+    color: white;
+    background-color: rgba(34,31,31,1) !important;
+}
+
+#dropdown07.show{
+    color: #c49a52;
 }
 
 #intro{
@@ -110,7 +136,7 @@ input[type=number] {
 }
 
 .card-car{
-    background-color: #d6d6d6 !important;
+    background-color: white !important;
 }
 
 .show_popup{
@@ -160,7 +186,7 @@ footer{
 }
 
 .zone-copyright{
-    background-color: #34495E !important;
+    background-color: #c49a52 !important;
     width: 100% !important;
 }
 
@@ -209,7 +235,7 @@ footer{
 /* CSS FICHE PRODUIT */
 
 .img-produit-fiche{
-    width: 18rem;
+    width: 24rem;
 }
 
 /* CSS PAGE CONTACT */
@@ -277,6 +303,10 @@ footer{
         margin-top: 0.75rem !important;
         margin-bottom: 0.75rem !important;
     } */
+
+    .border_separator{
+        border-right: 0px !important;
+    }
 }
 
 @media screen and (max-width: 1030px) {
@@ -314,16 +344,15 @@ footer{
     }
     nav ul.show.dropdown-menu{
         border: 0;
-        background-color: rgba(34,31,31,255) !important;
-        background: rgba(34,31,31,255) !important;
+        background-color: rgba(34,31,31,1) !important;
+        background: rgba(34,31,31,1) !important;
     }
     nav ul.show.dropdown-menu li a{
-        color: white !important;
+        color: white;
     }
     nav ul.show.dropdown-menu li :hover{
-        color: white !important;
-        background-color: rgba(34,31,31,255) !important;
-        background: rgba(34,31,31,255) !important;
+        background-color: rgba(34,31,31,1) !important;
+        background: rgba(34,31,31,1) !important;
     }
     .navbar-nav, .navbar-nav ul.dropdown-menu{
         text-align: center;

@@ -5,7 +5,8 @@ $irequal_mdp = "";
 $pcd_accepted = "";
 $email_already_exist = "";
 $pseudo_already_exist = "";
-
+$prenom_invalid = "";
+$nom_invalid = "";
 
 if(isset($_GET['action']) && $_GET['action'] == 'deconnexion')
 {
@@ -15,7 +16,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'deconnexion')
 if(isset($_POST['connexion']))
 {
 
-    if(isset($_POST['pseudo_email'], $_POST['password']))
+    if(isset($_POST['pseudo_email'], $_POST['connexion_password']))
     {
         $get_bdd_membre = $bdd->prepare("SELECT * FROM membre WHERE pseudo = :pseudo OR email = :email");
         $get_bdd_membre->bindValue(":pseudo", $_POST['pseudo_email'], PDO::PARAM_STR);
@@ -30,7 +31,7 @@ if(isset($_POST['connexion']))
             //Si les mots de passe sont crypté en BDD, nous pouvons les vérifiéer avec la fonction :
             // password_verify() : fonction prédéfinie permettant de comparer une clé de hachage à une chaine de caractères
             //Si le mot de passe saisie dans le formulaire correspond à la clé de hachage stockée en BDD, on entre dans la condition IF
-            if(password_verify($_POST['password'], $membre['mdp']))
+            if(password_verify($_POST['connexion_password'], $membre['mdp']))
             {
                 // On entre dans la condition seulement dans le cas ou l'internaute a saisi le bom email/pseudo et le bon mot de passe, donc il a saisi les bons identifiants
                 $_SESSION['membre'] = array();
@@ -62,6 +63,35 @@ elseif(isset($_POST['inscription']))
         {
             $irequal_mdp = "<span class='text-danger fw-bold position-absolute mt-1'>Les mots de passe ne sont pas identiques</span>";
         }
+
+        if(empty($_POST['prenom']))
+        {
+            $prenom_invalid = "<span class='text-danger fw-bold position-absolute mt-1'>Veuillez entrez un prénom</span>";
+        }
+        else
+        {
+            if (preg_match('~[0-9]+~', $_POST['prenom'])) {
+                $prenom_invalid = "<span class='text-danger fw-bold position-absolute mt-1'>les chiffres sont interdits</span>";
+            }
+        }
+
+        if(empty($_POST['nom']))
+        {
+            $nom_invalid = "<span class='text-danger fw-bold position-absolute mt-1'>Veuillez entrez un nom</span>";
+        }
+        else
+        {
+            if (preg_match('~[0-9]+~', $_POST['nom'])) {
+                $nom_invalid = "<span class='text-danger fw-bold position-absolute mt-1'>les chiffres sont interdits</span>";
+            }
+        }
+
+
+        if(empty($_POST['password']) || empty($_POST['confirm_password']))
+        {
+            $irequal_mdp = "<span class='text-danger fw-bold position-absolute mt-1'>Veuillez entrez un mot de passe</span>";
+        }
+
         if(!empty($_POST['email']))
         {
             $requete="select * from membre where email = :email;";
@@ -78,6 +108,10 @@ elseif(isset($_POST['inscription']))
                 $email_already_exist = '<span class="text-danger fw-bold position-absolute mt-1">Adresse mail incorrect</span>';
             }
         }
+        else
+        {
+            $email_already_exist = '<span class="text-danger fw-bold position-absolute mt-1">Veuillez entrez une adresse mail</span>';
+        }
         if(!empty($_POST['pseudo']))
         {
             $requete="select * from membre where pseudo = :pseudo;";
@@ -90,15 +124,18 @@ elseif(isset($_POST['inscription']))
                 $pseudo_already_exist = '<span class="text-danger fw-bold position-absolute mt-1">Ce pseudo est déja utilisé</span>';
             }
         }
+        else
+        {
+            $pseudo_already_exist = '<span class="text-danger fw-bold position-absolute mt-1">Veuillez entrez un pseudo</span>';
+        }
         
         if(!isset($_POST['pdc']))
         {
             $pcd_accepted = "<span class='text-danger fw-bold mt-1'>Veuillez accepter les politiques de confidentialité </span>";
         }
 
-        if(!empty($_POST['civilite']) && !empty($_POST['pseudo']) && !empty($_POST['password']) && !empty($_POST['confirm_password']) && !empty($_POST['email']) && !empty($_POST['prenom']) && !empty($_POST['nom']) && $_POST['pdc'] == 'accepted')  
+        if(!empty($_POST['civilite']) && !empty($_POST['pseudo']) && !empty($_POST['password']) && !empty($_POST['confirm_password']) && !empty($_POST['email']) && !empty($_POST['prenom']) && !empty($_POST['nom']) && $_POST['pdc'] == 'accepted' && empty($pseudo_already_exist) && empty($email_already_exist) && empty($irequal_mdp) && empty($prenom_invalid) && empty($nom_invalid) )  
         {
-            $all_input_err = "";
 
             $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
             // password_hash : fonction prédéfinie permettant de créer une clé de hachage pour le mot de passe dans la BDD
@@ -111,8 +148,6 @@ elseif(isset($_POST['inscription']))
             $requete->bindValue(':email',$_POST['email'],PDO::PARAM_STR);
             $requete->bindValue(':civilite',$_POST['civilite'],PDO::PARAM_STR);
             $requete->execute();
-
-            $_SESSION['validation_inscription'] = "Félicitations ! Vous êtes mainteanant inscrit ! Vous pouvez dès à présent vous connecter !";
 
 
             $get_bdd_membre = $bdd->prepare("SELECT * FROM membre WHERE pseudo = :pseudo OR email = :email");
